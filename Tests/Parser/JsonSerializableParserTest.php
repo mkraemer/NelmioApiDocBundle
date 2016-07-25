@@ -39,6 +39,17 @@ class JsonSerializableParserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider dataTestParserScalar
+     */
+    public function testParserScalar($expected)
+    {
+        $result = $this->parser->parse(array('class' => 'Nelmio\ApiDocBundle\Tests\Fixtures\Model\JsonSerializableScalarTest'));
+        foreach ($expected as $name => $value) {
+            $this->assertEquals($result[$name], $expected[$name]);
+        }
+    }
+
+    /**
      * @dataProvider dataTestSupports
      */
     public function testSupports($class, $expected)
@@ -83,6 +94,19 @@ class JsonSerializableParserTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function dataTestParserScalar()
+    {
+        return array(
+            array(
+                'expected' => array(
+                    'dataType' => 'integer',
+                    'default'  => 123
+                )
+            ),
+        );
+    }
+
+
     public function dataTestSupports()
     {
         return array(
@@ -96,6 +120,10 @@ class JsonSerializableParserTest extends \PHPUnit_Framework_TestCase
             ),
             array(
                 'class' => 'Nelmio\ApiDocBundle\Tests\Fixtures\Model\JsonSerializableOptionalConstructorTest',
+                'expected' => true
+            ),
+            array(
+                'class' => 'Nelmio\ApiDocBundle\Tests\Fixtures\Model\JsonSerializableScalarTest',
                 'expected' => true
             ),
             array(

@@ -46,7 +46,11 @@ class JsonSerializableParser implements ParserInterface
             return $output;
         }
 
-        return $parsed['children'];
+        if (array_key_exists('children', $parsed)) {
+            return $parsed['children'];
+        }
+
+        return $parsed;
     }
 
     public function getItemMetaData($item)
